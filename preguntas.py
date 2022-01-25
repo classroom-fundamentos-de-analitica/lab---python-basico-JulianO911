@@ -445,7 +445,6 @@ def pregunta_10():
     x = [data.split("\t") for data in x]
     x = [(data[0],len(data[3].split(",")),len(data[4].split(","))) for data in x]
     return x
-print(pregunta_10())
 
 def pregunta_11():
     """
@@ -462,11 +461,36 @@ def pregunta_11():
         "f": 134,
         "g": 35,
     }
-
+    
 
     """
-    return
-
+    x = open("data.csv", "r").readlines()
+    x = [z.replace("\n", "") for z in x]
+    x = [data.split("\t") for data in x]
+    x = [(data[3].split(","),int(data[1])) for data in x]
+    valores = []
+    for letras,valor in x:
+        [valores.append((str(letra),valor)) for letra in letras]
+    x = sorted(valores,key=itemgetter(0))
+    valores = {}
+    previous_key = None
+    acum = 0
+    i = 0
+    while(True):
+        key, value = x[i]
+        if previous_key is None:
+            previous_key = key
+        if key != previous_key:
+            valores[previous_key] = acum
+            previous_key = key
+            acum = value
+        else:
+            acum += value
+        i += 1
+        if i == len(x):
+            valores[previous_key] = acum
+            break
+    return valores
 
 def pregunta_12():
     """
@@ -481,6 +505,34 @@ def pregunta_12():
         'D': 136,
         'E': 324
     }
-
     """
-    return
+    x = open("data.csv", "r").readlines()
+    x = [z.replace("\n", "") for z in x]
+    x = [data.split("\t") for data in x]
+    valores = [data[4].split(",") for data in x]
+    valores2 = []
+    for diccionario in valores:
+        valores2.append([int(valor.split(":")[1]) for valor in diccionario])
+    valores2 = [sum(valores) for valores in valores2]
+    x = [(data[0],valores) for data,valores in zip(x,valores2)]
+    x = sorted(x,key=itemgetter(0))
+    valores = {}
+    previous_key = None
+    acum = 0
+    i = 0
+    while(True):
+        key, value = x[i]
+        if previous_key is None:
+            previous_key = key
+        if key != previous_key:
+            valores[previous_key] = acum
+            previous_key = key
+            acum = value
+        else:
+            acum += value
+        i += 1
+        if i == len(x):
+            valores[previous_key] = acum
+            break
+    return valores
+
