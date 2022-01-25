@@ -11,7 +11,15 @@ Utilice el archivo `data.csv` para resolver las preguntas.
 
 
 """
-
+def itemgetter(*items):
+    if len(items) == 1:
+        item = items[0]
+        def g(obj):
+            return obj[item]
+    else:
+        def g(obj):
+            return tuple(obj[item] for item in items)
+    return g
 
 def pregunta_01():
     """
@@ -43,10 +51,37 @@ def pregunta_02():
     ]
 
     """
-    return
+    x = open("data.csv", "r").readlines()
+    x = [z.replace("\n", "") for z in x]
+    x = [data.split("\t") for data in x]
+    x = [data[0] for data in x]
+    x = [(letra,1) for letra in x]
+    x = sorted(x,key=itemgetter(0))
+    tuples = []
+    previous_key = None
+    acum = 0
+    i = 0
+    while(True):
+        key, value = x[i]
+        if previous_key is None:
+            previous_key = key
+        if key != previous_key:
+            tuples.append((previous_key,acum))
+            previous_key = key
+            acum = value
+        else:
+            acum += value
+        i += 1
+        if i == len(x):
+            tuples.append((previous_key,acum))
+            break
+    return(tuples)
+
+
 
 
 def pregunta_03():
+
     """
     Retorne la suma de la columna 2 por cada letra de la primera columna como una lista
     de tuplas (letra, suma) ordendas alfabeticamente.
@@ -61,7 +96,30 @@ def pregunta_03():
     ]
 
     """
-    return
+    x = open("data.csv", "r").readlines()
+    x = [z.replace("\n", "") for z in x]
+    x = [data.split("\t") for data in x]
+    x = [(data[0],int(data[1])) for data in x]
+    x = sorted(x,key=itemgetter(0))
+    tuples = []
+    previous_key = None
+    acum = 0
+    i = 0
+    while(True):
+        key, value = x[i]
+        if previous_key is None:
+            previous_key = key
+        if key != previous_key:
+            tuples.append((previous_key,acum))
+            previous_key = key
+            acum = value
+        else:
+            acum += value
+        i += 1
+        if i == len(x):
+            tuples.append((previous_key,acum))
+            break
+    return tuples
 
 
 def pregunta_04():
@@ -86,8 +144,32 @@ def pregunta_04():
     ]
 
     """
-    return
-
+    x = open("data.csv", "r").readlines()
+    x = [z.replace("\n", "") for z in x]
+    x = [data.split("\t") for data in x]
+    x = [data[2] for data in x]
+    x = [data.split("-") for data in x]
+    x = [(data[1],1) for data in x]
+    x = sorted(x,key=itemgetter(0))
+    tuples = []
+    previous_key = None
+    acum = 0
+    i = 0
+    while(True):
+        key, value = x[i]
+        if previous_key is None:
+            previous_key = key
+        if key != previous_key:
+            tuples.append((previous_key,acum))
+            previous_key = key
+            acum = value
+        else:
+            acum += value
+        i += 1
+        if i == len(x):
+            tuples.append((previous_key,acum))
+            break
+    return tuples
 
 def pregunta_05():
     """
@@ -102,10 +184,38 @@ def pregunta_05():
         ("D", 8, 3),
         ("E", 9, 1),
     ]
-
+    
     """
-    return
-
+    x = open("data.csv", "r").readlines()
+    x = [z.replace("\n", "") for z in x]
+    x = [data.split("\t") for data in x]
+    x = [(data[0],int(data[1])) for data in x]
+    x = sorted(x,key=itemgetter(0))
+    tuples = []
+    previous_key = None
+    acum = 0
+    i = 0
+    nums = []
+    while(True):
+        key, value = x[i]
+        if previous_key is None:
+            previous_key = key
+        if key != previous_key:
+            minimo = min(nums)
+            maximo = max(nums)
+            tuples.append((previous_key,maximo,minimo))
+            previous_key = key
+            nums = []
+            nums.append(value)
+        else:
+            nums.append(value)
+        i += 1
+        if i == len(x):
+            minimo = min(nums)
+            maximo = max(nums)
+            tuples.append((previous_key,maximo,minimo))
+            break
+    return tuples
 
 def pregunta_06():
     """
@@ -129,8 +239,40 @@ def pregunta_06():
     ]
 
     """
-    return
-
+    x = open("data.csv", "r").readlines()
+    x = [z.replace("\n", "") for z in x]
+    x = [data.split("\t") for data in x]
+    x = [data[4].split(",") for data in x]
+    valores = []
+    for diccionario in x:
+        [valores.append(valor) for valor in diccionario]
+    x = [(valor.split(":")[0],int(valor.split(":")[1])) for valor in valores]
+    x = sorted(x,key=itemgetter(0))
+    tuples = []
+    previous_key = None
+    acum = 0
+    i = 0
+    nums = []
+    while(True):
+        key, value = x[i]
+        if previous_key is None:
+            previous_key = key
+        if key != previous_key:
+            minimo = min(nums)
+            maximo = max(nums)
+            tuples.append((previous_key,minimo,maximo))
+            previous_key = key
+            nums = []
+            nums.append(value)
+        else:
+            nums.append(value)
+        i += 1
+        if i == len(x):
+            minimo = min(nums)
+            maximo = max(nums)
+            tuples.append((previous_key,minimo,maximo))
+            break
+    return tuples
 
 def pregunta_07():
     """
