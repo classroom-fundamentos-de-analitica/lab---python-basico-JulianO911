@@ -22,8 +22,11 @@ def pregunta_01():
 
     """
     x = open("data.csv", "r").readlines()
-    return x
-
+    x = [z.replace("\n", "") for z in x]
+    x = [data.split("\t") for data in x]
+    x = [int(data[1]) for data in x]
+    res = sum(x)
+    return res
 
 def pregunta_02():
     """
